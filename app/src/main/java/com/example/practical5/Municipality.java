@@ -6,6 +6,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
+import android.content.ActivityNotFoundException;
+import android.net.Uri;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -83,5 +86,36 @@ public class Municipality extends AppCompatActivity {
         visitButton.setBackgroundTintList(
                 ColorStateList.valueOf(themeColor));
         visitButton.setTextColor(textColor);
+
+        visitButton.setOnClickListener(v -> {
+            String url;
+
+            switch (name) {
+                case "Beijing":
+                    url = "https://english.beijing.gov.cn/";
+                    break;
+                case "Shanghai":
+                    url = "https://english.shanghai.gov.cn/";
+                    break;
+                case "Tianjin":
+                    url = "https://en.tj.gov.cn/";
+                    break;
+                case "Chongqing":
+                    url = "https://english.cq.gov.cn/";
+                    break;
+                default:
+                    return;
+            }
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+
+            try {
+                startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(this, "No browser available",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }
